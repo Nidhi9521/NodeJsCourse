@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { parse } = require('csv-parse');
 
+const PlantentData = [];
 
 function isHabitablePlanet(planet) {
   return planet['koi_disposition'] === 'CONFIRMED'
@@ -11,14 +12,15 @@ function isHabitablePlanet(planet) {
 
 function loadPlanetsData() {
   return new Promise((resolve, reject) => {
-    fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'kepler_data.csv'))
+    fs.createReadStream(path.join(__dirname, '..', 'data', 'kepler_data.csv'))
       .pipe(parse({
         comment: '#',
         columns: true,
       }))
       .on('data', async (data) => {
+
         if (isHabitablePlanet(data)) {
-          savePlanet(data);
+          PlantentData.push(data)
         }
       })
       .on('error', (err) => {
@@ -26,22 +28,18 @@ function loadPlanetsData() {
         reject(err);
       })
       .on('end', async () => {
-        const countPlanetsFound = (await getAllPlanets()).length;
-        console.log(`${countPlanetsFound} habitable planets found!`);
+        console.log(PlantentData.map((data) => {
+          return data['kepler_name']
+        }))
+        console.log(PlantentData.length);
+        console.log('done');
         resolve();
       });
   });
 }
 
-async function getAllPlanets() {
-  
-}
-
-async function savePlanet(planet) {
- 
-}
 
 module.exports = {
   loadPlanetsData,
-  getAllPlanets,
+  PlantentData
 };

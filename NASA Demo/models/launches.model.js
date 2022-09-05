@@ -1,62 +1,55 @@
-const axios = require('axios');
+const launches = new Map();
 
-const launchesDatabase = require('./launches.mongo');
-const planets = require('./planets.mongo');
-
-const DEFAULT_FLIGHT_NUMBER = 100;
-
-const SPACEX_API_URL = 'https://api.spacexdata.com/v4/launches/query';
-
-async function populateLaunches() {
- 
+var latestFlightNumber = 1;
 
 
-    const launch = {
-      flightNumber: launchDoc['flight_number'],
-      mission: launchDoc['name'],
-      rocket: launchDoc['rocket']['name'],
-      launchDate: launchDoc['date_local'],
-      upcoming: launchDoc['upcoming'],
-      success: launchDoc['success'],
-      customers,
-    };
+const launch = {
+  flightNumber: 1,
+  mission: 'Kepler Exploration X',
+  rocket: 'Rocket_1',
+  launchDate: new Date('May 5,2023'),
+  upcoming: true,
+  success: true,
+  customers: ['abc', 'xyz'],
+};
 
-    console.log(`${launch.flightNumber} ${launch.mission}`);
+launches.set(launch.flightNumber, launch);
 
-  
+
+function existLaunchWithId(launchId) {
+  return launches.has(launchId);
 }
 
-async function loadLaunchData() {
- 
+function getAllLaunch() {
+  console.log('get launch');
+  console.log(launches)
+  return Object.fromEntries(launches);
 }
 
-async function findLaunch(filter) {
-  return await launchesDatabase.findOne(filter);
+function addNewLaunch(launch) {
+  latestFlightNumber=latestFlightNumber+1;
+console.log(launch);
+  launches.set(latestFlightNumber, Object.assign(launch, {
+    upcoming: true,
+    sucess: true,
+    customer: ['abc', 'xyz'],
+    flightNumber: latestFlightNumber
+  })
+  );
+  console.log(launches);
 }
 
-async function existsLaunchWithId(launchId) {
+function abortLaunchById(launchId) {
+  const aborted = launches.get(launchId);
+  aborted.upcoming = false;
+  aborted.sucess = false;
+  return aborted;
 }
 
-async function getLatestFlightNumber() {
-  
-}
-
-async function getAllLaunches(skip, limit) {
-  
-}
-
-async function scheduleNewLaunch(launch) {
-
-}
-
-async function abortLaunchById(launchId) {
-  
-}
 
 module.exports = {
-  loadLaunchData,
-  existsLaunchWithId,
-  getAllLaunches,
-  scheduleNewLaunch,
+  existLaunchWithId,
   abortLaunchById,
+  getAllLaunch,
+  addNewLaunch,
 };
