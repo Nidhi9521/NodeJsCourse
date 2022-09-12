@@ -1,0 +1,21 @@
+type Query{
+    product:[Product!]!
+    productByPrice(minPrice:Float!, maxPrice: Float!): [Product!]!
+    productById(id:Int!): Product!
+}
+    
+type Mutation{
+    addNewProduct(id:Int!,description:String!,price:Float!): [Product!]!
+    addProductReview(id:Int!,rating:Int!,comment:String!): [Product!]!
+}
+type Product{
+    id:Int!
+    description: String!
+    price: Float!
+    review:[Review!]!
+}
+
+type Review{
+    rating: Int!
+    comment: String!
+}
