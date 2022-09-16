@@ -40,4 +40,7 @@ app.post("/events", (req, res) => {
     res.send({});
   });
   
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () =>{
+  console.log('Check');
+  console.log(`Example app listening on port ${port}!`)
+} )
