@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: post-depl
+  name: query-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: post
+      app: query
   template:
     metadata:
       labels:
-        app: post
+        app: query
     spec:
       containers:
-        - name: post
-          image: nidhi9521/postimage
+        - name: query
+          image: nidhi9521/queryimage
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: post-clusterip-srv
+  name: query-srv
 spec:
   selector:
-    app: post
+    app: query
   ports: 
-    - name: post
+    - name: query
       protocol: TCP
-      port: 4001
-      targetPort: 4001
+      port: 4002
+      targetPort: 4002

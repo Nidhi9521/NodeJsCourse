@@ -10,11 +10,12 @@ const port = 4001
 var posts={}
 app.get('/', (req, res) => res.send('Hello World!'))
 
-app.get('/post',(req,res)=>{
+app.get('/post/create',(req,res)=>{
     console.log(posts);
     res.send(posts);
 })
-app.post('/post',async(req,res)=>{
+
+app.post('/post/create',async(req,res)=>{
     console.log('post');
      const id=randomBytes(4).toString('hex')
      const title = req.body.title;
@@ -22,14 +23,15 @@ app.post('/post',async(req,res)=>{
      posts[id]={
         id,title
      }
-    
-  await axios.post('http://localhost:4003/events', {
+    console.log("event conneting")
+  await axios.post('http://event-srv:4003/events', {
     type: 'PostCreated',
     data: {
       id,
       title
     }
   });
+  console.log("event conneting")
 console.log(posts[id]);
      res.status(201).send(posts[id]);
 

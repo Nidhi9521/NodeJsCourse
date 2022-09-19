@@ -9,7 +9,7 @@ app.get('/events', async (req, res) => {
     if (type === 'CommentCreated') {
         const status = 'approved';
         console.log("CommentCreated");
-        await axios.post('http://localhost:4003/events', {
+        await axios.post('http://event-srv:4003/events', {
             type: 'CommentModerated',
             data: {
                 id: data.id,
