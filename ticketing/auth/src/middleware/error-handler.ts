@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { RequestValidationError } from "../errors/request-validation-error";
 import { DatabaseConnectionError } from "../errors/database-connection-error";
-
+import { BadRequestError } from "../errors/bad-request-error";
+import { NotFoundError } from "../errors/not-found-error";
 export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
 
     if(err instanceof RequestValidationError){
@@ -10,6 +11,18 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
     }
 
     if(err instanceof DatabaseConnectionError){
+        console.log("handling this error as DBerror");
+        return res.status(err.statusCode).send({errors:err.serializeError()})
+    }
+    if(err instanceof BadRequestError){
+        console.log("handling this error as DBerror");
+        return res.status(err.statusCode).send({errors:err.serializeError()})
+    }
+    if(err instanceof BadRequestError){
+        console.log("handling this error as DBerror");
+        return res.status(err.statusCode).send({errors:err.serializeError()})
+    }
+    if(err instanceof NotFoundError){
         console.log("handling this error as DBerror");
         return res.status(err.statusCode).send({errors:err.serializeError()})
     }
