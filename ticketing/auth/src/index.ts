@@ -1,35 +1,5 @@
-import express from "express";
-import "express-async-errors";
 import mongoose from "mongoose";
-import { currentUserRouter } from "./routes/current-user";
-import { signinRouter } from "./routes/signin";
-import { signoutRouter } from "./routes/signout";
-import { signupRouter } from "./routes/signup";
-import { errorHandler } from "../src/middleware/error-handler"
-import { NotFoundError } from "./errors/not-found-error";
-import cookieSession from "cookie-session";
-
-const app = express();
-app.use(express.json());
-app.set('trust proxy',true);
-app.use(cookieSession({
-    signed:false,
-    secure:true,
-}))
-
-app.use(currentUserRouter)
-app.use(signinRouter)
-app.use(signoutRouter)
-app.use(signupRouter)
-app.use(errorHandler)
-
-app.all('*', async (req, res) => {
-    throw new NotFoundError();
-})
-
-// app.use('/',(req,res)=>{
-//     res.send('HeLlO eVeRyOnE, You hit basic get api');
-// })
+import { app } from "./app";
 
 const start = async () => {
 
@@ -42,10 +12,9 @@ const start = async () => {
     } catch (err) {
         console.log(err);
     }
+    app.listen(4000, () => {
+        console.log('port serving at 4000');
+    })
 }
 
-app.listen(3000, () => {
-    console.log('port serving at 3000');
-
-})
 start();
