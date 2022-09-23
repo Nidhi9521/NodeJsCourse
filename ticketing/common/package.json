@@ -1,15 +1,15 @@
 {
   "name": "@ndgokani9521/common",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "main": "./build/index.js",
-  "types":"./build/index.d.ts",
+  "types": "./build/index.d.ts",
   "files": [
     "build/**/*"
   ],
   "scripts": {
-    "clean":"del ./build/*",
-    "build":"tsc"
+    "clean": "del ./build/*",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
