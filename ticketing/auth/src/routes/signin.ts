@@ -35,7 +35,7 @@ router.post('/api/users/signin', [
     //store it on session
 
     req.session = { jwt: userJWT };
-    res.status(201).send({});
+    res.status(200).send({});
 })
 
 export { router as signinRouter };

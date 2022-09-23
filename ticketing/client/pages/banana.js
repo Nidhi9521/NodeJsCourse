@@ -1,3 +1,4 @@
-export default () =>{
-    return <h1>Bannana</h1>
-}
+export default () => {
+    return <h1>Banana</h1>;
+  };
+  

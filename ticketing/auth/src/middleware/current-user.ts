@@ -31,7 +31,6 @@ console.log(req.session);
             process.env.jwt!
         ) as UserPayload;
         req.currentUser=payload;
-        res.send({ currentUser: payload })
     } catch (err) {
        
     }
