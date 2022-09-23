@@ -1,11 +1,11 @@
 import express, { Request, response, Response } from "express";
 import { body, validationResult } from "express-validator";
-import { RequestValidationError } from "../errors/request-validation-error";
-import { DatabaseConnectionError } from "../errors/database-connection-error";
+import { RequestValidationError } from "@ndgokani9521/common";
+import { DatabaseConnectionError } from "@ndgokani9521/common";
 import { User } from "../models/user";
-import { BadRequestError } from "../errors/bad-request-error";
+import { BadRequestError } from "@ndgokani9521/common";
 import jwt from "jsonwebtoken";
-import { validationRequest } from "../middleware/validate-request";
+import { validationRequest } from "@ndgokani9521/common";
 const router = express.Router();
 
 router.post('/api/users/signup', [
