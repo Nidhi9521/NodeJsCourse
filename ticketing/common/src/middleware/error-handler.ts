@@ -16,15 +16,15 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
         return res.status(err.statusCode).send({errors:err.serializeError()})
     }
     if(err instanceof BadRequestError){
-        console.log("handling this error as BadRequest");
+        console.log("handling this error as BadRequestError");
         return res.status(err.statusCode).send({errors:err.serializeError()})
     }
     if(err instanceof NotAuthorizedError){
-        console.log("handling this error as NotAuthorized");
+        console.log("handling this error as NotAuthorizedError");
         return res.status(err.statusCode).send({errors:err.serializeError()})
     }
     if(err instanceof NotFoundError){
-        console.log("handling this error as NotFound");
+        console.log("handling this error as NotFoundError");
         return res.status(err.statusCode).send({errors:err.serializeError()})
     }
 
