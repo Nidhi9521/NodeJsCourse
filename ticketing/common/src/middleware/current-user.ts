@@ -16,7 +16,6 @@ declare global{
     }
 }
 
-
 export const currentUser=(
     req: Request,
     res:Response,
@@ -26,6 +25,7 @@ export const currentUser=(
     if(req.session && !req.session?.jwt){
         return next();
     }
+
     try {
         const payload = jwt.verify(
             req.session?.jwt,
@@ -35,6 +35,7 @@ export const currentUser=(
     } catch (err) {
        
     }
+
     next();
 
 }
