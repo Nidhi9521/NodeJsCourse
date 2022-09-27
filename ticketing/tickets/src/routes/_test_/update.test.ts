@@ -18,11 +18,11 @@ it('returns a 401 if the user is not authenticated',async()=>{
 })
 
 it('returns a 401 if the user does not own the ticket',async()=>{
+
     const response=await request(app)
     .post(`/api/tickets`)
     .set('Cookie',global.signin())
     .send({title:'asdfj',price:20});
-
 
     await request(app)
     .put(`/api/tickets/${response.body.id}`)
@@ -81,3 +81,4 @@ it('update the ticket provided valid inputs',async ()=>{
 
 
 })
+

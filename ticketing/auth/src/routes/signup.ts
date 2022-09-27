@@ -35,9 +35,9 @@ router.post('/api/users/signup', [
     //store it on session
 
     req.session = { jwt: userJWT };
-    console.log(req.session );
+    console.log(req.session);
     
-    res.status(200).send(user);
+    res.status(201).send(user);
 
     // if(!email || typeof email!=='string'){
     //     res.status(400).send('Provide a valid email')

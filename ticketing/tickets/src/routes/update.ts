@@ -10,9 +10,11 @@ router.put('/api/tickets/:id',requireAuth,[
     body('price').isFloat({gt:0}).withMessage('price must be provided')
 ],validationRequest,async(req:Request,res:Response)=>{
     const ticket = await Ticket.findById(req.params.id);
+    
     if(!ticket){
         throw new NotFoundError();
     }
+    
     if(ticket.userId!==req.currentUser!.id){
         throw new NotAuthorizedError();
     }
@@ -22,5 +24,6 @@ router.put('/api/tickets/:id',requireAuth,[
     })
     await ticket.save();
     res.status(200).send(ticket);  
+
 })
 export { router as updateTicketRouter}

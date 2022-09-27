@@ -29,19 +29,21 @@ it('fails when an incorrect password suplied', async () => {
 })
 
 it('signin signup with correct id password', async () => {
-    await request(app)
+    var response=await request(app)
         .post('/api/users/signup')
         .send({
             email: 'check1@test.com',
             password: 'password12345'
         })
         .expect(201)
+        console.log(response.get('Set-Cookie'));
+        
 
     await request(app)
         .post('/api/users/signin')
         .send({
             email: 'check1@test.com',
             password: 'password12345'
-        }).expect(201)
+        }).expect(200)
 
 })
