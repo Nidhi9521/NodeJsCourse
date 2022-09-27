@@ -20,21 +20,15 @@ export const currentUser=(
     res:Response,
     next: NextFunction
 )=>{
-
     if(req.session && !req.session?.jwt){
         return next();
     }
-
     try {
         const payload = jwt.verify(
             req.session?.jwt,
             process.env.jwt!
         ) as UserPayload;
         req.currentUser=payload;
-    } catch (err) {
-       
-    }
-
+    } catch (err) {  }
     next();
-
 }
