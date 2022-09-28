@@ -8,6 +8,7 @@ declare global {
     var signin: () => string[];
 }
 let mongo: any;
+
 beforeAll(async () => {
     process.env.jwt = 'asdf'
     mongo = await MongoMemoryServer.create();

@@ -1,23 +1,13 @@
 import request from "supertest";
 import { app } from "../../app";
+
+jest.mock('../../nats-wrapper')
 const createTicket=()=>{
     return request(app)
     .post('/api/tickets')
     .set('Cookie', global.signin())
     .send({ title: 'adsdf', price: 20 })
 }
-
-
-// it('can fetch a list of tickets', async () => {
-//     await request(app)
-//     .post('/api/tickets')
-//     .set('Cookie', global.signin())
-//     .send({ title: 'adsdf', price: 20 })
-//     await request(app)
-//     .post('/api/tickets')
-//     .set('Cookie', global.signin())
-//     .send({ title: 'adsdf', price: 20 })
-// })
 
 it('can fetch a list of tickets',async()=>{
     await createTicket(); 
