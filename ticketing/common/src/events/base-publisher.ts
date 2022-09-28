@@ -19,6 +19,7 @@ export abstract class Publisher<T extends Event>{
     
             this.client.publish(this.subject,JSON.stringify(data),(err)=>{
                 console.log('Event Published.');
+                console.log(`Event data is ${data}`);
                 if(err){
                     return reject();
                 }
