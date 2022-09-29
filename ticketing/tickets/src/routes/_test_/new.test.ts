@@ -1,7 +1,7 @@
 import request from "supertest";
 import { app } from "../../app";
 import { Ticket } from "../../model/ticket";
-
+import {natsWrapper} from "../../nats-wrapper";
 it('return other status other than 401 if user sign in', async() => {
   var response=await request(app)
       .post('/api/tickets')
@@ -78,5 +78,19 @@ it('return error if invalid arguments provided', async () => {
    expect(tickets.length).toEqual(1)
    expect(tickets[0].price).toEqual(20) 
    expect(tickets[0].title).toEqual(title);
+
+})
+
+it('publish an event',async()=>{
+   const title="qwerty"
+   await request(app).post('/api/tickets')
+   .set('Cookie',global.signin())
+   .send({
+      title,
+       price:20
+   }).expect(201);
+
+   console.log(natsWrapper);
+      expect(natsWrapper.client.publish).toHaveBeenCalled()
 
 })

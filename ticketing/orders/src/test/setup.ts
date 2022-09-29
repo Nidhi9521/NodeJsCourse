@@ -64,6 +64,7 @@ global.signin = () => {
     //TAKE JSON AND ENCODE TO BASE 64
     const base64 = Buffer.from(sessionJSON).toString('base64');
 
+    
     //RETURN A STRING ENCODEDE DATA
     return [`session=${base64}`];
 }

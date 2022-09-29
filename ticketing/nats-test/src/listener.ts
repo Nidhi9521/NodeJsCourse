@@ -34,6 +34,6 @@ stan.on('connect',()=>{
 })
 
 process.on('SIGINT',()=> stan.close())
-process.on('SIGTREM  ',()=> stan.close())
+process.on('SIGTREM',()=> stan.close())
 
 

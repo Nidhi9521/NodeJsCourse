@@ -3,4 +3,3 @@ export enum Subjects{
     OrderUpdated='order:updated'
 }
 
-console.log(Subjects.TicketCreated);
