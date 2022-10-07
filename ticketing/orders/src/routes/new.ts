@@ -55,11 +55,11 @@ router.post('/api/orders',
             userId: req.currentUser?.id || '',
             status: OrderStatus.Created,
             expiresAt: expiration,
-            ticket
+            ticket,
         })
         await order.save();
         await new OrderCreatedPublisher(natsWrapper.client).publish({
-            id: order.id, userId: order.userId, status: order.status, expiresAt: order.expiresAt, ticket: { id: order.ticket.id, price: order.ticket.price }
+            id: order.id,version:order.version, userId: order.userId, status: order.status, expiresAt: order.expiresAt, ticket: { id: order.ticket.id, price: order.ticket.price }
         })
         res.status(201).send(order);
     })

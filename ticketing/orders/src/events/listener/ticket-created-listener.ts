@@ -2,7 +2,7 @@ import { Message } from "node-nats-streaming";
 import { Subjects,Listener,TicketCreatedEvent } from "@ndgokani9521/common";
 import { Ticket } from "../../models/ticket";
 import { queueGroup } from "./queue-group-name";
-import { ModifierFlags } from "typescript";
+
 export class TicketCreatedListener extends Listener<TicketCreatedEvent>{
     queueGroup=queueGroup;
     subject: Subjects.TicketCreated=Subjects.TicketCreated;

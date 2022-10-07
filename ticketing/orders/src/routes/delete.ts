@@ -22,7 +22,7 @@ router.put('/api/orders/:orderId',requireAuth,async (req:Request,res:Response) =
     order.status=OrderStatus.Cancelled;
     await order.save();
     await new OrderCancelledPublisher(natsWrapper.client).publish({
-         id: order.id, ticket: { id: order.ticket.id, price: order.ticket.price, } 
+         id: order.id,version:order.version, ticket: { id: order.ticket.id, price: order.ticket.price, } 
     })
     res.status(204).send(order)
 
