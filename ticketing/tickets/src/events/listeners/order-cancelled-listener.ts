@@ -5,7 +5,10 @@ import { queueGroup } from './queue-group-name'
 import { TicketUpdatedPublisher } from "../publishers/ticket-update-publisher";
 
 export class OrderCancelledListener extends Listener<OrderCancelledEvent>{
+    // queueGroupName: string;
     queueGroup = queueGroup;
+
+
     subject: Subjects.OrderCancelled = Subjects.OrderCancelled;
 
     async onMessage(data: OrderCancelledEvent['data'], msg: Message) {
@@ -14,18 +17,16 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent>{
         if (!ticket) {
             throw new Error('Ticket not found')
         }
-
         ticket.set({ orderId: undefined });
 
         await ticket.save();
-        new TicketUpdatedPublisher(this.client).publish({
+        await new TicketUpdatedPublisher(this.client).publish({
             id: ticket.id,
+            version: ticket.version,
             title: ticket.title,
             price: ticket.price,
-            userId: ticket.userId,
-            version: ticket.version,
-            orderId:ticket.orderId
+            userId: ticket.userId
         });
         msg.ack();
     }
-} 0
+} 

@@ -3,6 +3,7 @@ import { Message } from "node-nats-streaming";
 import { Ticket } from "../../model/ticket";
 import { queueGroup } from './queue-group-name'
 import { TicketUpdatedPublisher } from "../publishers/ticket-update-publisher";
+import { natsWrapper } from "../../nats-wrapper";
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent>{
     queueGroup = queueGroup;
@@ -18,14 +19,14 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent>{
         ticket.set({ orderId: data.id });
 
         await ticket.save();
-        new TicketUpdatedPublisher(this.client).publish({
+        await new TicketUpdatedPublisher(this.client).publish({
             id: ticket.id,
+            version: ticket.version,
             title: ticket.title,
             price: ticket.price,
             userId: ticket.userId,
-            version: ticket.version,
             orderId: ticket.orderId
         });
         msg.ack();
     }
-} 0
+} 

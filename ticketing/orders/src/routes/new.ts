@@ -7,7 +7,7 @@ import { Order } from "../models/orders";
 import { OrderCreatedPublisher } from "../events/publisher/order-created-publisher";
 import { natsWrapper } from "../nats-wrapper";
 const router = express.Router();
-const EXPIRATION_WINDOW_SECONDS = 15 * 60
+const EXPIRATION_WINDOW_SECONDS = 1 * 60
 router.post('/api/orders',
     requireAuth, [
     body('ticketId')
@@ -17,6 +17,7 @@ router.post('/api/orders',
         .withMessage('TicketId must be provided')
 ], validationRequest,
     async (req: Request, res: Response) => {
+        console.log('order');
 
         const { ticketId } = req.body;
         console.log(ticketId);
@@ -59,7 +60,7 @@ router.post('/api/orders',
         })
         await order.save();
         await new OrderCreatedPublisher(natsWrapper.client).publish({
-            id: order.id,version:order.version, userId: order.userId, status: order.status, expiresAt: order.expiresAt, ticket: { id: order.ticket.id, price: order.ticket.price }
+            id: order.id, version: order.version, userId: order.userId, status: order.status, expiresAt: order.expiresAt, ticket: { id: order.ticket.id, price: order.ticket.price }
         })
         res.status(201).send(order);
     })

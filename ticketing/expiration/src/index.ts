@@ -1,17 +1,10 @@
 import mongoose from "mongoose";
-import { app } from "./app";
+import { OrderCreatedListener } from "./events/listeners/order-creaated-listener";
 import { natsWrapper } from "./nats-wrapper";
-import { TicketCreatedListener } from "./events/listener/ticket-created-listener";
-import { TicketUpdatedListener } from "./events/listener/ticket-updaated-listener";
-import { ExpirationCompleteListener } from "./events/listener/expiration-complete-listener";
+
 const start = async () => {
 
-    if (!process.env.jwt) {
-        throw new Error('env not defiend')
-    }
-    if (!process.env.MONGO_URI) {
-        throw new Error('env not defiend')
-    }
+    
     if (!process.env.NATS_CLIENT_ID) {
         throw new Error('env not defiend')
     }
@@ -32,17 +25,16 @@ const start = async () => {
 
         process.on('SIGINT', () => natsWrapper.client!.close())
         process.on('SIGTREM  ', () => natsWrapper.client!.close())
-        new TicketCreatedListener(natsWrapper.client).listen();
-        new TicketUpdatedListener(natsWrapper.client).listen();
-        new ExpirationCompleteListener(natsWrapper.client).listen();
-        await mongoose.connect(process.env.MONGO_URI)
+        
+        new OrderCreatedListener(natsWrapper.client).listen();
+        
     } catch (err) {
         console.log(err);
     }
 
-    app.listen(4000, () => {
-        console.log('port serving at 4001');
-    })
+    // app.listen(4000, () => {
+    //     console.log('port serving at 4001');
+    // })
 }
 
 start();
