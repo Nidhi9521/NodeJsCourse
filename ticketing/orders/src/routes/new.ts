@@ -17,15 +17,13 @@ router.post('/api/orders',
         .withMessage('TicketId must be provided')
 ], validationRequest,
     async (req: Request, res: Response) => {
-        console.log('order');
 
         const { ticketId } = req.body;
-        console.log(ticketId);
+
 
         const ticket = await Ticket.findById(ticketId);
 
         if (!ticket) {
-            console.log('ticket');
 
             throw new NotFoundError();
         }
@@ -43,7 +41,6 @@ router.post('/api/orders',
         // })
 
         if (isReserved) {
-            console.log('isReserved');
 
             throw new BadRequestError('Ticket is already reserved');
         }

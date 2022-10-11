@@ -5,13 +5,15 @@ import { app } from '../app'
 import jwt from 'jsonwebtoken'
 
 declare global {
-    var signin: () => string[];
+    var signin: (id?: string) => string[];
 }
 let mongo: any;
 
 jest.mock('../nats-wrapper')
+process.env.STRIPE_KEY = 'sk_test_51L5rF5SJAU1RrfAEM5m4wIt1LR5LSPcJiwJkDJVLeAOa5US0UaiRtuhXgNIXR4Qrh3RMlTp115VWTKGSvjWl1PlF00dIoscGRr'
 beforeAll(async () => {
     process.env.jwt = 'asdf'
+
     mongo = await MongoMemoryServer.create();
     const mongoUri = mongo.getUri();
     await mongoose.connect(mongoUri, {});
@@ -32,7 +34,7 @@ afterAll(async () => {
     await mongoose.connection.close();
 })
 
-global.signin = () => {
+global.signin = (id?: String) => {
     // const email = 'test@gmail.com';
     // const password = '1234';
 
@@ -48,7 +50,7 @@ global.signin = () => {
 
     //BUILD JWT PAYLOAD {ID ,EMAIL}
     const payload = {
-        id: new mongoose.Types.ObjectId().toHexString(),
+        id: id || new mongoose.Types.ObjectId().toHexString(),
         email: 'abc@gmail.com'
     }
 
