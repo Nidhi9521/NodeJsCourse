@@ -1,4 +1,5 @@
 import { ExpirationCompleteEvent, Listener, OrderStatus, Subjects } from "@ndgokani9521/common";
+import e from "express";
 import { Message } from "node-nats-streaming";
 import { Order } from "../../models/orders";
 import { natsWrapper } from "../../nats-wrapper";
@@ -14,23 +15,27 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
             throw new Error('Order not found')
         }
 
-        order.set({
-            status: OrderStatus.Cancelled,
-        })
+        if (order.status != OrderStatus.Complete) {
+            order.set({
+                status: OrderStatus.Cancelled,
+            })
 
-        await order.save();
-        msg.ack();
-        console.log();
+            await order.save();
+            msg.ack();
+            console.log();
 
-        new OrderCancelledPublisher(natsWrapper.client).publish({
-            id: order.id,
-            version: order.version,
-            ticket: {
-                id: order.ticket.id,
-                price: order.ticket.price
+            new OrderCancelledPublisher(natsWrapper.client).publish({
+                id: order.id,
+                version: order.version,
+                ticket: {
+                    id: order.ticket.id,
+                    price: order.ticket.price
+                }
             }
+            )
+        } else {
+            msg.ack();
         }
-        )
     }
     queueGroup = queueGroup;
 

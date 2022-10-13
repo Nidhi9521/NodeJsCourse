@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 
 interface PaymentAttrs {
     orderId: string;
-    StripeId: string;
+    stripeId: string;
 }
 
 interface PaymentDoc extends mongoose.Document {
     orderId: string;
-    StripeId: string;
+    stripeId: string;
     version: number;
 }
 
